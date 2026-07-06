@@ -8,11 +8,10 @@ import static java.util.Collections.*;
 public class Main {
     public static void main(String[] args) {
 
-        leetcode l = new leetcode() ;
+        LC3947 lc = new LC3947() ;
 
-        int[][] nums = {{2,4},{3,2},{4,1},{6,4},{12,4}};
-        int k = 8 ;
+        LC3558 lc2 = new LC3558() ;
 
-        l.maximumSaleItems(nums, 8) ;
+        lc2.combinationSum(new int[]{2,3,6,7},8) ;
     }
 }

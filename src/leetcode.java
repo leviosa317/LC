@@ -3,60 +3,60 @@ import org.graalvm.collections.Pair;
 import java.util.* ;
 
 public class leetcode {
-    int n ;
-    int[] free ;
-    int[][] items ;
 
-    int[][] dp ;
+    public int[][] merge(int[][] intervals) {
 
-    boolean [] vis ;
+        Arrays.sort(intervals,(a,b) ->{
+            if(a[1] != b[1]) return Integer.compare(a[0],b[0]) ;
 
-    int mini = Integer.MAX_VALUE ;
-    int solve(int idx, int budget){
-        if(idx == n){
-            return budget/mini ;
-        }
+            return Integer.compare(a[0],b[0]) ;
+        });
 
-        if(dp[idx][budget] != -1) return dp[idx][budget] ;
+        int i = 1 ;
 
-        int copies = 0 ;
+        int n = intervals.length ;
 
-        int price = items[idx][1] ;
+        if(n <= 1) return intervals ;
 
-        if(budget >= price){
-            copies = 1 + free[idx] + solve(idx+1,budget-price) ;
-        }
+        Stack<int[]> st = new Stack<>() ;
+        st.push(new int[]{intervals[0][0],intervals[0][1]})  ;
 
-        copies = Math.max(copies, solve(idx + 1,budget)) ;
+        while(i<n){
 
-        return dp[idx][budget] = copies ;
-    }
-    public int maximumSaleItems(int[][] items, int budget) {
-        //factor,price .... fj%fi == 0 ;
+            int start = intervals[i][0] ;
+            int end = intervals[i][1] ;
 
-        n = items.length ;
-        free = new int[n] ;
-        this.items = items ;
-        vis = new boolean[n] ;
+            int pStart = st.peek()[0] ;
+            int pEnd = st.peek()[1] ;
 
-        dp = new int[n][budget + 1] ;
+            while(pEnd >= start){
+                st.pop();
 
-        for(int[] p : dp){
-            Arrays.fill(p,-1) ;
-        }
+                start = Math.min(start,pStart) ;
+                end = Math.max(end,pEnd) ;
 
-        for(int i=0 ; i<n ; i++){
-            mini = Math.min(mini, items[i][1]) ;
-            for(int j = 0 ; j<n ; j++){
-                if(i==j) continue ;
+                if(st.empty())break ;
 
-                int fj = items[j][0] ;
-                int fi = items[i][0] ;
-
-                if(fj % fi == 0)free[i] ++ ;
+                pStart = st.peek()[0] ;
+                pEnd = st.peek()[1] ;
             }
+
+            st.push(new int[]{start,end}) ;
+            i++ ;
+
         }
 
-        return solve(0,budget) ;
+        int sz = st.size() ;
+
+        int[][] res = new int[sz][] ;
+
+        for(int j = sz - 1 ; i >= 0 ; i--){
+            res[j][0] = st.peek()[0] ;
+            res[j][1] = st.peek()[1] ;
+
+            st.pop() ;
+        }
+
+        return  res ;
     }
 }
