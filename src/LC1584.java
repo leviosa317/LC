@@ -3,9 +3,7 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class LC1584 {
-
-
-    public int calculate_weight(int[] n1, int[] n2){
+    public static int calculate_weight(int[] n1, int[] n2){
         return Math.abs(n1[0] - n2[0]) + Math.abs(n1[1]-n2[1]) ;
     }
     public int minCostConnectPoints(int[][] points) {
