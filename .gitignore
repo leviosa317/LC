@@ -27,5 +27,7 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+output.txt
+input.txt
 
 Main
